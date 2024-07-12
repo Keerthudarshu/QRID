@@ -83,7 +83,6 @@
             width: 100px;
             height: 100px;
             margin-bottom: 10px;
-           
         }
 
         .topper {
@@ -148,8 +147,15 @@
             justify-content: center;
             align-items: center;
             margin-top: 10px;
+            flex-direction: column; /* Update to column layout */
         }
-        
+
+        .qr-code {
+            width: 150px;
+            height: 150px;
+            margin-bottom: 10px; /* Add margin bottom for spacing */
+        }
+
         .footercard {
             background-color: blue;
             height: 40px;
@@ -162,6 +168,11 @@
         .footercard h4 {
             margin: 0;
             padding-top: 10px;
+        }
+
+        .student-name {
+            font-size: 20px;
+            color: #ffffff;
         }
     </style>
 </head>
@@ -186,7 +197,6 @@
                     <img class="card-image" alt="Profile Picture" style="border:2px solid #000;  border-radius: 10px;">
                     <h2 class="card-name" style="color:rgb(255, 0, 0);"></h2>
                     <div class="details">
-                        
                         <p><b style="margin-right: -2px;">Course:</b> <span class="card-course" style="color: #001122; margin-right:100px;"></span></p>
                         <p><b>USN:</b> <span class="card-usn" style="color: #001122; margin-right:12px;"></span></p>
                         <p><b style="margin-right: -2px;">Batch:</b> <span class="card-batch" style="color: #001122; margin-right:80px;"></span></p>
@@ -196,6 +206,7 @@
                 <div class="footercard">
                     <h4 style="margin-left: 280px;">Principal</h4>
                 </div>
+             
             </div>
         </div>
         <div class="box">
@@ -203,10 +214,14 @@
                 <div class="idcard" style="background-color: bisque; height:380px;">
                     <div class="details">
                         <p><b style="margin-left: -2px;">DOB:</b> <span class="card-dob" style="color: #001122;"></span></p>
-        <p><b style="margin-left: -130px;">Blood Group:</b> <span class="card-blood_group" style="color: #001122;"></span></p>
-        <p><b style="margin-right: -2px;">Phone:</b> <span class="card-phone" style="color: #001122;"></span></p>
-        <p><b>Address:</b> <span class="card-address" style="color: #001122;"></span></p>
-                        <div class="qr-code-container"></div>
+                        <p><b style="margin-left: -130px;">Blood Group:</b> <span class="card-blood_group" style="color: #001122;"></span></p>
+                        <p><b style="margin-right: -2px;">Phone:</b> <span class="card-phone" style="color: #001122;"></span></p>
+                        <p><b>Address:</b> <span class="card-address" style="color: #001122;"></span></p>
+                        <div class="qr-code-container">
+                            <img class="qr-code" src="" alt="QR Code" style="width: 150px; height:150px">
+                            <p class="student-name" style="background-color: #ffffff; color:#001122; margin-top:-10px; width:150px;"></p> <!-- New element for student name -->
+
+                        </div>
                     </div>
                 </div>
                 <div class="footercard">
@@ -216,7 +231,6 @@
         </div>
     </div>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', async function() {
             // Get the USN from local storage or URL parameters
@@ -224,7 +238,7 @@
             
             if (usn) {
                 try {
-                    // Fetch user data from the server
+                    // Fetch user data including QR code image path and student name from the server
                     const response = await fetch(`/api/qrcode/${usn}`);
                     if (!response.ok) {
                         throw new Error('Failed to fetch user data');
@@ -234,50 +248,34 @@
         
                     console.log('User Data:', userData); // Log user data for debugging
         
-                    // Update the ID card fields
+                    // Update elements with user data
                     document.querySelectorAll('.card-name').forEach(el => el.textContent = userData.name);
                     document.querySelectorAll('.card-course').forEach(el => el.textContent = userData.course);
                     document.querySelectorAll('.card-usn').forEach(el => el.textContent = userData.usn);
                     document.querySelectorAll('.card-batch').forEach(el => el.textContent = userData.batch);
                     document.querySelectorAll('.card-dob').forEach(el => el.textContent = userData.dob);
-                    document.querySelectorAll('.card-blood_group').forEach(el => el.textContent = userData.bloodGroup);
+                    document.querySelectorAll('.card-blood_group').forEach(el => el.textContent = userData.blood_group);
                     document.querySelectorAll('.card-phone').forEach(el => el.textContent = userData.phone);
                     document.querySelectorAll('.card-address').forEach(el => el.textContent = userData.address);
+                    
+                    // Display the QR code image
+                    const qrCodeImg = document.querySelector('.qr-code');
+                    qrCodeImg.src = userData.qrCodeImage;
         
-                    // Set the profile image dynamically
-                    const profileImage = document.querySelector('.card-image');
-                    if (userData.imageUrl) {
-                        profileImage.src = userData.imageUrl;
-                    } else {
-                        console.error('Image URL not provided in user data');
-                    }
-        
-                    // Generate QR code
-                    const qrCodeContainer = document.querySelector('.qr-code-container');
-                    new QRCode(qrCodeContainer, {
-                        text: JSON.stringify({
-                            name: userData.name,
-                            email: userData.email,
-                            phone: userData.phone,
-                            branch: userData.branch,
-                            course: userData.course,
-                            usn: userData.usn,
-                            dob: userData.dob,
-                            batch: userData.batch,
-                            bloodGroup: userData.bloodGroup,
-                            address: userData.address
-                        }),
-                        width: 150,
-                        height: 150
-                    });
+                    // Display the profile picture
+                    const profileImg = document.querySelector('.card-image');
+                    profileImg.src = userData.imageUrl;
+
+                    // Display the student's name
+                    const studentNameElements = document.querySelectorAll('.student-name');
+                    studentNameElements.forEach(el => el.textContent = userData.name); // Assuming userData.name contains the student's name
                 } catch (error) {
-                    console.error('Error fetching user data:', error);
+                    console.error('Error fetching user data:', error.message);
                 }
             } else {
-                console.error('USN not found in local storage or URL parameters');
+                console.error('No USN found in local storage or URL parameters');
             }
         });
-        
     </script>
 </body>
 </html>
