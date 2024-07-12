@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Library Page</title>
+    <link rel="stylesheet" href="style2.css">
+</head>
+<body>
+   
+    <header>
+        <nav class="navbar">
+            <h1>Library Management</h1>
+            <ul>
+                <li>
+                    <a href="#">Book Purchased</a>
+                    <div class="dropdown">
+                        <input type="text" id="bookSearch" placeholder="Search Book Purchased">
+                        <button onclick="searchBook('bookSearch')">Search</button>
+                    </div>
+                </li>
+                <li>
+                    <a href="#">Due Date</a>
+                    <div class="dropdown">
+                        <input type="text" id="dueDateSearch" placeholder="Search Due Date">
+                        <button onclick="searchBook('dueDateSearch')">Search</button>
+                    </div>
+                </li>
+                <button class="logout-button" onclick="handleLogout()">
+                    <i>&#x1F511;</i> Logout
+                </button>
+            </ul>
+        </nav>
+    </header>
+    <div class="container">
+        <h1>Search for Student Information</h1>
+        <form id="searchForm">
+            <input type="text" id="usn" name="usn" placeholder="Enter USN" required>
+            <button type="submit">Search</button>
+        </form>
+    </div>
+
+    <div class="results-container" id="resultsContainer">
+        <!-- Results will be displayed here -->
+    </div>
+
+    <script>
+        function handleLogout() {
+            // Add your logout logic here
+            window.location.href = 'login.html'; // Redirect to logout page or perform other logout actions
+        }
+        document.getElementById('searchForm').addEventListener('submit', async function(event) {
+            event.preventDefault();
+            const usn = document.getElementById('usn').value.trim();
+
+            try {
+                const response = await fetch(`/api/qrcode/${encodeURIComponent(usn)}`);
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                const data = await response.json();
+
+                // Clear previous results
+                document.getElementById('resultsContainer').innerHTML = '';
+
+                // Display each field from QR schema
+                const resultContainer = document.createElement('div');
+                resultContainer.classList.add('result-item');
+
+                resultContainer.innerHTML = `
+                    <h2>${data.name}</h2>
+                    <p>Email: ${data.email}</p>
+                    <p>Phone: ${data.phone}</p>
+                    <p>Branch: ${data.branch}</p>
+                    <p>Course: ${data.course}</p>
+                    <p>USN: ${data.usn}</p>
+                    <p>DOB: ${data.dob}</p>
+                    <p>Batch: ${data.batch}</p>
+                    <p>Blood Group: ${data.bloodGroup}</p>
+                    <p>Address: ${data.address}</p>
+                    <img src="${data.imageUrl}" alt="Profile Image">
+
+                    <!-- Additional fields for book details -->
+                    <div id="additionalFields">
+                        <input type="text" id="bookName" name="bookName" placeholder="Enter Book Name">
+                        <input type="date" id="purchaseDate" name="purchaseDate" placeholder="Select Purchase Date">
+                        <input type="date" id="dueDate" name="dueDate" placeholder="Select Due Date">
+                    </div>
+
+                    <!-- Container for displaying added book details -->
+                    <div id="bookDetailsContainer"></div>
+
+                    <!-- Update button for saving book details -->
+                    <button id="updateDetailsBtn">Update</button>
+                `;
+
+                document.getElementById('resultsContainer').appendChild(resultContainer);
+
+                // Add book details on button click
+                const updateDetailsBtn = resultContainer.querySelector('#updateDetailsBtn');
+                updateDetailsBtn.addEventListener('click', async function() {
+                    const bookName = document.getElementById('bookName').value.trim();
+                    const purchaseDate = document.getElementById('purchaseDate').value;
+                    const dueDate = document.getElementById('dueDate').value;
+
+                    if (bookName && purchaseDate && dueDate) {
+                        const requestData = {
+                            usn: data.usn,
+                            name: data.name,
+                            email: data.email,
+                            phone: data.phone,
+                            bookName: bookName,
+                            purchaseDate: purchaseDate,
+                            dueDate: dueDate
+                        };
+
+                        try {
+                            const response = await fetch('/api/library_lending', {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json'
+                                },
+                                body: JSON.stringify(requestData)
+                            });
+
+                            if (!response.ok) {
+                                throw new Error('Failed to add book details.');
+                            }
+
+                            alert('Book details added successfully!');
+                            // Optionally clear or update UI after successful addition
+                        } catch (error) {
+                            console.error('Error adding book details:', error);
+                            alert('Failed to add book details. Please try again.');
+                        }
+                    } else {
+                        alert('Please fill in all fields for book details.');
+                    }
+                });
+
+            } catch (error) {
+                console.error('Error fetching data:', error);
+                // Display error message or handle error case
+            }
+        });
+    </script>
+</body>
+</html>

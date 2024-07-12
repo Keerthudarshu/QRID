@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>QR Code Generator</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #001122;
+            margin: 0;
+        }
+
+        .back-arrow {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            font-size: 24px;
+            color: rgb(254, 253, 253);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .back-arrow:hover {
+            color: #050505;
+            background-color: aliceblue;
+        }
+
+        .box {
+            width: 90%;
+            max-width: 600px;
+            background-color: #155e75;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            position: relative;
+            margin-top: 600px;
+        }
+
+        .qr-header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .qr-header h1 {
+            margin: 0 0 20px;
+            font-size: 24px;
+            color: #ffffff;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-size: 14px;
+            color: #ffffff;
+        }
+
+        .form-group #address {
+            height: 100px;
+            padding: 15px;
+        }
+
+        .qr-body {
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .qr-body img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        .qr-footer {
+            text-align: center;
+        }
+
+        .qr-footer button {
+            display: inline-block;
+            padding: 10px 20px;
+            margin: 10px 5px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .qr-footer button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <a href="index1.html" class="back-arrow">&#8592; Back</a>
+    <div class="box">
+        <div class="qr-header">
+            <h1>Generate QR Code</h1>
+        </div>
+        <form id="qrForm" enctype="multipart/form-data">
+            <div class="form-group">
+                <input type="text" placeholder="Name" id="name" name="name" required>
+            </div>
+            <div class="form-group">
+                <input type="email" placeholder="Email" id="email" name="email" required>
+            </div>
+            <div class="form-group">
+                <input type="text" placeholder="Phone" id="phone" name="phone" required>
+            </div>
+            <div class="form-group">
+                <input type="text" placeholder="Branch" id="branch" name="branch" required>
+            </div>
+            <div class="form-group">
+                <input type="text" placeholder="Course" id="course" name="course" required>
+            </div>
+            <div class="form-group">
+                <input type="text" placeholder="USN" id="usn" name="usn" required>
+            </div>
+            <div class="form-group">
+                <input type="date" placeholder="DOB" id="dob" name="dob" required>
+            </div>
+            <div class="form-group">
+                <input type="text" placeholder="Batch" id="batch" name="batch" required>
+            </div>
+            <div class="form-group">
+                <input type="text" placeholder="Blood Group" id="blood-group" name="bloodGroup" required>
+            </div>
+            <div class="form-group">
+                <input type="text" placeholder="Address" id="address" name="address" required>
+            </div>
+            <div class="form-group">
+                <label for="sizes">Select Size:</label>
+                <select id="sizes" name="sizes">
+                    <option value="1000">1000x1000</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="image">Upload Image:</label>
+                <input type="file" id="image" name="image" accept="image/*">
+            </div>
+            <div class="qr-body" id="qrBody">
+                <!-- QR code will be generated here -->
+            </div>
+            <div class="qr-footer">
+                <button type="button" id="generateQRBtn">Generate QR Code</button>
+                <button type="button" id="downloadQRBtn" disabled>Download QR Code</button>
+                <!-- <form action="/generateQR" method="POST" enctype="multipart/form-data"> -->
+                <button type="submit" id="generateBtn">Generate and Submit</button>
+            </form>
+            </div>
+        </form>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <script>
+        // Initialize QR code generator
+        const qrCode = new QRCode(document.getElementById('qrBody'), {
+            width: 250,
+            height: 250,
+            correctLevel: QRCode.CorrectLevel.H
+        });
+
+        // Function to update QR code
+        function updateQRCode(text) {
+            qrCode.clear();
+            qrCode.makeCode(text);
+        }
+
+        // Event listener for Generate QR Code button
+        document.getElementById('generateQRBtn').addEventListener('click', function() {
+            // Get form data
+            const name = document.getElementById('name').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const phone = document.getElementById('phone').value.trim();
+            const branch = document.getElementById('branch').value.trim();
+            const course = document.getElementById('course').value.trim();
+            const usn = document.getElementById('usn').value.trim();
+            const dob = document.getElementById('dob').value.trim();
+            const batch = document.getElementById('batch').value.trim();
+            const bloodGroup = document.getElementById('blood-group').value.trim();
+            const address = document.getElementById('address').value.trim();
+
+            // Create a JSON object to store all the values
+            const qrData = {
+                name: name,
+                email: email,
+                phone: phone,
+                branch: branch,
+                course: course,
+                usn: usn,
+                dob: dob,
+                batch: batch,
+                bloodGroup: bloodGroup,
+                address: address
+            };
+
+            // Convert the JSON object to a string
+            const qrText = JSON.stringify(qrData);
+
+            console.log('QR Text:', qrText); // Debug: Log QR Text to ensure it's correct
+
+            // Generate QR code with JSON string
+            updateQRCode(qrText);
+
+            // Enable download button
+            document.getElementById('downloadQRBtn').disabled = false;
+        });
+
+        // Event listener for Download QR Code button
+        document.getElementById('downloadQRBtn').addEventListener('click', function() {
+            const canvas = document.querySelector('canvas');
+            const image = canvas.toDataURL('image/jpg').replace('image/jpg', 'image/octet-stream');
+            const link = document.createElement('a');
+            link.href = image;
+            link.download = 'QR_Code.png';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        });
+
+        // Event listener for form submission
+        document.getElementById('qrForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            // Clear local storage before saving new data
+            localStorage.clear();
+
+            // Get form data
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const phone = document.getElementById('phone').value;
+            const branch = document.getElementById('branch').value;
+            const course = document.getElementById('course').value;
+            const usn = document.getElementById('usn').value;
+            const dob = document.getElementById('dob').value;
+            const batch = document.getElementById('batch').value;
+            const bloodGroup = document.getElementById('blood-group').value;
+            const address = document.getElementById('address').value;
+            const size = document.getElementById('sizes').value;
+
+            // Handle image upload
+            const imageInput = document.getElementById('image');
+            const formData = new FormData();
+            formData.append('name', name);
+            formData.append('email', email);
+            formData.append('phone', phone);
+            formData.append('branch', branch);
+            formData.append('course', course);
+            formData.append('usn', usn);
+            formData.append('dob', dob);
+            formData.append('batch', batch);
+            formData.append('bloodGroup', bloodGroup);
+            formData.append('address', address);
+            formData.append('size', size);
+
+            if (imageInput.files && imageInput.files[0]) {
+                formData.append('image', imageInput.files[0]);
+            }
+
+            // Save form data to local storage
+            localStorage.setItem('name', name);
+            localStorage.setItem('email', email);
+            localStorage.setItem('phone', phone);
+            localStorage.setItem('branch', branch);
+            localStorage.setItem('course', course);
+            localStorage.setItem('usn', usn);
+            localStorage.setItem('dob', dob);
+            localStorage.setItem('batch', batch);
+            localStorage.setItem('bloodGroup', bloodGroup);
+            localStorage.setItem('address', address);
+
+            // Fetch to store data and handle response
+            fetch('/generateQR', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Success:', data);
+
+                // Redirect to the result page with USN as query parameter
+                window.location.href = `result.html?usn=${encodeURIComponent(usn)}`;
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Library Search Result</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="details">
+        <h2 class="card-name" style="color:rgb(255, 0, 0);"></h2>
+        <p><b style="margin-right: -2px;">Course:</b> <span class="card-course" style="color: #001122; margin-right:100px;"></span></p>
+        <p><b>USN:</b> <span class="card-usn" style="color: #001122; margin-right:12px;"></span></p>
+        <p><b style="margin-right: -2px;">Batch:</b> <span class="card-batch" style="color: #001122; margin-right:80px;"></span></p>
+        <p><b style="margin-left: -2px;">DOB:</b> <span class="card-dob" style="color: #001122;"></span></p>
+        <p><b style="margin-left: -130px;">Blood Group:</b> <span class="card-blood_group" style="color: #001122;"></span></p>
+        <p><b style="margin-right: -2px;">Phone:</b> <span class="card-phone" style="color: #001122;"></span></p>
+        <p><b>Address:</b> <span class="card-address" style="color: #001122;"></span></p>
+        <img class="card-image" src="" alt="Profile Image">
+        <div class="qr-code-container"></div>
+    </div>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', async function() {
+            // Get the USN from URL parameters
+            const urlParams = new URLSearchParams(window.location.search);
+            const usn = urlParams.get('usn');
+            
+            if (usn) {
+                try {
+                    // Fetch user data from the server
+                    const response = await fetch(`/search?usn=${usn}`, { method: 'GET' });
+                    
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                    
+                    const userData = await response.json();
+        
+                    console.log('User Data:', userData); // Log user data for debugging
+        
+                    // Update the ID card fields
+                    document.querySelector('.card-name').textContent = userData.name;
+                    document.querySelector('.card-course').textContent = userData.course;
+                    document.querySelector('.card-usn').textContent = userData.usn;
+                    document.querySelector('.card-batch').textContent = userData.batch;
+                    document.querySelector('.card-dob').textContent = userData.dob;
+                    document.querySelector('.card-blood_group').textContent = userData.bloodGroup;
+                    document.querySelector('.card-phone').textContent = userData.phone;
+                    document.querySelector('.card-address').textContent = userData.address;
+        
+                    // Set the profile image dynamically
+                    const profileImage = document.querySelector('.card-image');
+                    if (userData.imageUrl) {
+                        profileImage.src = userData.imageUrl;
+                    } else {
+                        console.error('Image URL not provided in user data');
+                    }
+        
+                    // Generate QR code
+                    const qrCodeContainer = document.querySelector('.qr-code-container');
+                    new QRCode(qrCodeContainer, {
+                        text: JSON.stringify({
+                            name: userData.name,
+                            email: userData.email,
+                            phone: userData.phone,
+                            branch: userData.branch,
+                            course: userData.course,
+                            usn: userData.usn,
+                            dob: userData.dob,
+                            batch: userData.batch,
+                            bloodGroup: userData.bloodGroup,
+                            address: userData.address
+                        }),
+                        width: 150,
+                        height: 150
+                    });
+                } catch (error) {
+                    console.error('Error fetching user data:', error);
+                }
+            } else {
+                console.error('USN not found in URL parameters');
+            }
+        });
+    </script>
+</body>
+</html>

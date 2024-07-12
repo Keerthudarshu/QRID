@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Details - QR Code Generator</title>
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+
+    <!-- <link rel="stylesheet" href="style1.css"> -->
+</head>
+<style>
+    .wrapper{
+        background-color: #001122;  
+        padding: 20px;
+  border-radius: 10px; /* Optional: Add rounded corners */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Optional: Add a subtle shadow */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
+      }
+
+      .details-box{
+        width: 100%;
+        max-width: 400px; 
+        background-color: #155e75;
+        padding: 20px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        border-radius: 10px;
+        position: relative;
+        text-align: center;
+        margin-bottom: 20px;
+      }
+.imagepic{
+    margin-top: 10px;
+    width: 100px;
+    height: 100px;
+    margin-bottom: 10px;
+    border-radius: 10px;
+}
+</style>
+<body>
+    <button class="logout-button" onclick="handleLogout()">
+        <i>&#x1F511;</i> Logout
+    </button>
+    <h1>WELCOME, <span id="user-name"></span></h1>
+    
+        <div class="wrapper">
+        
+        <div class="details-box">
+            <div>
+               
+                <img  class="imagepic" id="image" src="" alt="Profile Image" style="max-width: 200px;">
+            </div>
+            <p><strong>Full Name:</strong> <span id="name"></span></p>
+            <p><strong>Email:</strong> <span id="email"></span></p>
+            <p><strong>Phone:</strong> <span id="phone"></span></p>
+            <p><strong>Branch:</strong> <span id="branch"></span></p>
+            <p><strong>Course:</strong> <span id="course"></span></p>
+            <p><strong>USN:</strong> <span id="usn"></span></p>
+            <p><strong>DOB:</strong> <span id="dob"></span></p>
+            <p><strong>Batch:</strong> <span id="batch"></span></p>
+            <p><strong>Blood Group:</strong> <span id="bloodGroup"></span></p>
+            <p><strong>Address:</strong> <span id="address"></span></p>
+            
+            <!-- <div>
+                <strong>QR Code:</strong>
+                <img id="qrCodeImage" src="" alt="QR Code" style="max-width: 200px;">
+            </div> -->
+        </div>
+    </div>
+    <script>
+        function handleLogout() {
+            // Add your logout logic here
+            window.location.href = 'login.html'; // Redirect to logout page or perform other logout actions
+        }
+        // Parse query parameters to get user details
+        const urlParams = new URLSearchParams(window.location.search);
+        const details = {};
+        urlParams.forEach((value, key) => {
+            details[key] = value;
+        });
+        
+        // Display user details
+        document.getElementById('name').textContent = details.name;
+        document.getElementById('email').textContent = details.email;
+        document.getElementById('phone').textContent = details.phone;
+        document.getElementById('branch').textContent = details.branch;
+        document.getElementById('course').textContent = details.course;
+        document.getElementById('usn').textContent = details.usn;
+        document.getElementById('dob').textContent = details.dob;
+        document.getElementById('batch').textContent = details.batch;
+        document.getElementById('bloodGroup').textContent = details.bloodGroup;
+        document.getElementById('address').textContent = details.address;
+        document.getElementById('image').src = details.imageUrl;
+        document.getElementById('qrCodeImage').src = details.qrCodeImage;
+    </script>
+</body>
+</html>

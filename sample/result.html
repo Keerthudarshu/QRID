@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>QR Code Generator Result</title>
+    <style>
+        /* Your existing styles */
+        .back-arrow {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            font-size: 24px;
+            color: rgb(254, 253, 253);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        .back-arrow:hover {
+            color: #050505;
+            background-color: aliceblue;
+        }
+        .container {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+        }
+        .box {
+            display: flex;
+            flex-direction: column;
+            width: 45%;
+            padding: 20px;
+            box-sizing: border-box;
+            margin: 10px;
+            text-align: center;
+            border: 1px solid #000;
+            border-radius: 10px;
+            background-color: #155e75;
+        }
+        .qr-footer {
+            text-align: center;
+        }
+        .qr-footer a {
+            padding: 10px 20px;
+            margin: 10px 5px;
+            background-color: #4CAF50;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+        .qr-footer a:hover {
+            background-color: #45a049;
+        }
+        .id-card {
+            box-sizing: border-box;
+            text-align: center;
+            border: 1px solid #000;
+            border-radius: 10px;
+            position: relative;
+            overflow: hidden;
+        }
+        .id-card img {
+            margin-top: 10px;
+            width: 70px;
+            height: 70px;
+            margin-bottom: 10px;
+            border-radius: 10%;
+            border: 2px solid #000;
+        }
+        .topper {
+            display: flex;
+            align-items: center;
+            color: rgb(255, 255, 255);
+            background-color: rgb(8, 12, 247);
+            padding: 10px;
+            border-bottom: 1px solid #000;
+            justify-content: space-between;
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
+        }
+        .topper .header-text {
+            flex: 1;
+            text-align: center;
+        }
+        .topper img {
+            max-height: 80px;
+            max-width: 40px;
+            margin-right: 10px;
+        }
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+            }
+            .box {
+                width: 100%;
+            }
+        }
+        .idcard {
+            position: relative;
+            z-index: 1; /* Ensure content is above the overlay */
+            padding: 10px; /* Optional padding to space out content from edges */
+        }
+        .idcard::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('/photo/th.jpeg');
+            background-size: cover;
+            background-position: center;
+            opacity: 0.5; /* Adjust this value to set the transparency level */
+            z-index: -1; /* Ensure the overlay is behind the content */
+        }
+        .details p {
+            margin: 0;
+            padding: 5px 0;
+        }
+        .qr-code-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <a href="index1.html" class="back-arrow">&#8592; Back</a>
+    <div class="container">
+        <div class="box">
+            <div class="qr-header">
+                <h1>Identity Card</h1>
+            </div>
+            <div class="id-card">
+                <div class="topper">
+                    <img src="/photo/logo.jpg" alt="Logo">
+                    <div class="header-text">
+                        <h6>ACADEMY OF LIBERAL EDUCATION @</h6>
+                        <h5>KVG COLLEGE OF ENGINEERING</h5>
+                        <h5>SULLIA-574237, D.K., KARNATAKA STATE, INDIA</h5>
+                        <h5>PHONE:1234567890</h5>
+                    </div>
+                </div>
+                <div class="idcard" style="background-color: bisque;">
+                    <img class="card-image" src="#" alt="Profile Picture">
+                    <h2 class="card-name" style="color:rgb(255, 0, 0);"></h2>
+                    <div class="details">
+                        <p class="card-course" style="color: blue;"></p>
+                        <p class="card-usn" style="color: blue;"></p>
+                        <p class="card-batch" style="color: blue;"></p>
+                        
+                    </div>
+                </div>
+                <div class="footercard" style="background-color:blue; height:40px ; color:aliceblue">
+                    <h4 style="margin-left: 280px;">Principal</h4>
+                </div>
+            </div>
+        </div>
+        <div class="box">
+            <div class="id-card" style="margin-top: 60px;">
+                <div class="idcard" style="background-color: bisque;">
+                   
+                        <p class="card-dob" style="color: blue;"></p>
+                        <p class="card-blood_group" style="color: blue;"></p>
+                        <p class="card-phone" style="color: blue;"></p>
+                        <p class="card-address" style="color: blue;"></p>
+                        <div class="qr-code-container"></div>
+                    </div>
+                </div>
+                <div class="footercard" style="background-color:blue; height:40px ; color:aliceblue">
+                    <h4>Web: http://kvgengg.com/</h4>
+                </div>
+            </div>
+           
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Retrieve form data from local storage
+            const name = localStorage.getItem('name');
+            const email = localStorage.getItem('email');
+            const phone = localStorage.getItem('phone');
+            const branch = localStorage.getItem('branch');
+            const course = localStorage.getItem('course');
+            const usn = localStorage.getItem('usn');
+            const batch = localStorage.getItem('batch');
+            const dob = localStorage.getItem('dob');
+            const bloodGroup = localStorage.getItem('blood_group');
+            const address = localStorage.getItem('address');
+            const profileImage = localStorage.getItem('profileImage');
+
+            // Update the ID card fields
+            document.querySelectorAll('.card-name').forEach(el => el.textContent = name);
+            document.querySelectorAll('.card-course').forEach(el => el.textContent = course);
+            document.querySelectorAll('.card-usn').forEach(el => el.textContent = usn);
+            document.querySelectorAll('.card-batch').forEach(el => el.textContent = batch);
+            document.querySelectorAll('.card-dob').forEach(el => el.textContent = dob);
+            document.querySelectorAll('.card-blood_group').forEach(el => el.textContent = bloodGroup);
+            document.querySelectorAll('.card-phone').forEach(el => el.textContent = phone);
+            document.querySelectorAll('.card-address').forEach(el => el.textContent = address);
+
+            if (profileImage) {
+                document.querySelectorAll('.card-image').forEach(el => el.src = profileImage);
+            }
+
+            // Generate QR code
+            document.querySelectorAll('.qr-code-container').forEach(qrCodeContainer => {
+                qrCodeContainer.innerHTML = '';
+                const qrSize = 150; // Adjust QR code size if necessary
+                new QRCode(qrCodeContainer, {
+                    text: JSON.stringify({ name, email, phone, branch, course, usn, batch, dob, bloodGroup, address }),
+                    width: qrSize,
+                    height: qrSize
+                });
+            });
+
+            // Function to fetch and save data to MongoDB
+            async function saveDataToMongo(data) {
+                try {
+                    const response = await fetch('/save-data', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(data)
+                    });
+                    if (!response.ok) {
+                        throw new Error('Error saving data');
+                    }
+                    const result = await response.json();
+                    localStorage.setItem('mongoId', result.id); // Store MongoDB ID in localStorage
+                    return result.id;
+                } catch (error) {
+                    console.error('Error:', error);
+                    return null;
+                }
+            }
+
+            // Example usage of saveDataToMongo function
+            const formData = { name, email, phone, branch, course, usn, batch, dob, bloodGroup, address };
+            saveDataToMongo(formData)
+                .then(mongoId => {
+                    console.log('MongoDB ID:', mongoId);
+                    const urlField = document.getElementById('url-field');
+                    if (urlField) {
+                        urlField.textContent = mongoId; // Update URL field with MongoDB ID
+                    }
+                })
+                .catch(error => {
+                    console.error('Error saving data:', error);
+                });
+        });
+    </script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+} else {
+    profileImage.src = '/uploads/1720373457704-smart-kids-260nw-184810610.webp'; // Default image if none provided
+}

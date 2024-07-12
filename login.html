@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>QR Code Generator Login Page</title>
+  <link rel="stylesheet" href="style1.css">
+  <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+</head>
+<body>
+  <div class="wrapper">
+    <h1>Login</h1>
+    <div class="role-options">
+      <label><input type="radio" name="role" value="admin" id="adminRadio" > Admin</label>
+      <label><input type="radio" name="role" value="student" id="studentRadio"> Student</label>
+      <label><input type="radio" name="role" value="library" id="libraryRadio"> Library</label>
+    </div>
+
+   
+  </div>
+
+  <script>
+    // Add event listeners to student and library radio buttons
+    document.getElementById('adminRadio').addEventListener('click', function() {
+      window.location.href = 'adminlogin.html'; // Redirect to student login page
+    });
+    document.getElementById('studentRadio').addEventListener('click', function() {
+      window.location.href = 'login-student.html'; // Redirect to student login page
+    });
+
+    document.getElementById('libraryRadio').addEventListener('click', function() {
+      window.location.href = 'login-library.html'; // Redirect to library login page
+    });
+  </script>
+</body>
+</html>

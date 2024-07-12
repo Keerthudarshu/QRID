@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>QR Code Generator | Code Traversal</title>
+    <style>
+        .back-arrow {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            font-size: 24px;
+            color: rgb(254, 253, 253);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        .back-arrow:hover {
+            color: #050505;
+            background-color: aliceblue;
+        }
+        .container {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-around;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .box {
+            width: 45%;
+            padding: 20px;
+            box-sizing: border-box;
+            margin: 10px;
+        }
+        .qr-footer {
+            text-align: center;
+        }
+        .qr-footer button {
+            padding: 10px 20px;
+            margin: 10px 5px;
+            background-color: #4CAF50;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            border: none;
+            transition: background-color 0.3s;
+            cursor: pointer;
+        }
+        .qr-footer button:hover {
+            background-color: #45a049;
+        }
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+            }
+            .box {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <a href="index1.html" class="back-arrow">&#8592; Back</a>
+    <div class="container">
+        <div class="box">
+            <div class="qr-header">
+                <h1>Generate QR Code</h1>
+                <form id="qrForm" enctype="multipart/form-data">
+                    <div class="form-group">
+                        <input type="text" placeholder="Name" id="name" name="name" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="email" placeholder="Email" id="email" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" placeholder="Phone" id="phone" name="phone" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" placeholder="Branch" id="branch" name="branch" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" placeholder="Course" id="course" name="course" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" placeholder="USN" id="usn" name="usn" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" placeholder="Batch" id="batch" name="batch" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="date" placeholder="DOB" id="dob" name="dob" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" placeholder="Blood Group" id="blood_group" name="blood_group" required>
+                    </div>
+                    <div class="form-group">
+                        <textarea placeholder="Address" id="address" name="address" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="sizes">Select Size:</label>
+                        <select id="size" name="size">
+                            <option value="256">256x256</option>
+                            <option value="512">512x512</option>
+                            <option value="1000">1000x1000</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="image">Upload Image:</label>
+                        <input type="file" id="image" name="image" accept="image/*">
+                    </div>
+                    <form id="qrForm" action="/generateQR" method="POST" enctype="multipart/form-data">
+                        <!-- form fields -->
+                        <div class="qr-footer">
+                            <button type="submit" id="generateBtn">Submit</button>
+                        </div>
+                    </form>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('qrForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const phone = document.getElementById('phone').value;
+            const branch = document.getElementById('branch').value;
+            const course = document.getElementById('course').value;
+            const usn = document.getElementById('usn').value;
+            const batch = document.getElementById('batch').value;
+            const dob = document.getElementById('dob').value;
+            const bloodGroup = document.getElementById('blood_group').value;
+            const address = document.getElementById('address').value;
+            const size = document.getElementById('size').value;
+            const imageFile = document.getElementById('image').files[0];
+
+            const reader = new FileReader();
+            reader.onloadend = function() {
+                const profileImage = reader.result;
+
+                localStorage.setItem('name', name);
+                localStorage.setItem('email', email);
+                localStorage.setItem('phone', phone);
+                localStorage.setItem('branch', branch);
+                localStorage.setItem('course', course);
+                localStorage.setItem('usn', usn);
+                localStorage.setItem('batch', batch);
+                localStorage.setItem('dob', dob);
+                localStorage.setItem('blood_group', bloodGroup);
+                localStorage.setItem('address', address);
+                localStorage.setItem('qrSize', size);
+                if (profileImage) {
+                    localStorage.setItem('profileImage', profileImage);
+                }
+
+                window.location.href = 'result.html';
+            };
+
+            if (imageFile) {
+                reader.readAsDataURL(imageFile);
+            } else {
+                reader.onloadend();
+            }
+        });
+    </script>
+</body>
+</html>

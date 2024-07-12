@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QR Code Generator </title>
+    <style>
+        body {
+            display: flex;
+            margin: 0;
+            height: 100vh;
+            justify-content: center;
+            align-items: center;
+            background-color: #001122;
+            flex-direction: column;
+            position: relative; /* Added to position the logout button */
+        }
+        .logout-button {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 18px;
+            color: white;
+            background-color: transparent;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            transition: color 0.3s;
+        }
+        .logout-button:hover {
+            color: #ddd;
+        }
+        .logout-button i {
+            margin-right: 8px; /* Space between icon and text */
+        }
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            margin-bottom: 10px;
+        }
+        .box-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+        }
+        .box {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 24px;
+            margin: 20px;
+            height: 300px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5); /* Text shadow for better readability */
+            background-size: cover;
+            background-position: center;
+        }
+        .box1 {
+            background-color: #4CAF50;
+            background-image: url('photo/genarte_qr.png'); /* Replace with the path to your image */
+        }
+        .box2 {
+            background-color: #2196F3;
+            background-image: url('photo/scan_qr.png'); /* Replace with the path to your image */
+        }
+        .box:hover, .box.hover {
+            background-color: rgba(250, 246, 246, 0.2); /* Semi-transparent overlay on hover */
+        }
+        .label-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+        }
+        .label {
+            flex: 1;
+            text-align: center;
+            font-size: 20px;
+            color: white;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+        .label:hover, .label.hover {
+            color: #ddd; /* Change color on hover */
+            background-color: rgba(254, 251, 251, 0.2);
+        }
+    </style>
+</head>
+<body>
+    <button class="logout-button" onclick="handleLogout()">
+        <i>&#x1F511;</i> Logout
+    </button>
+    <div class="box-container">
+        <div class="box box1" onclick="handleClick(this, 'index.html')"></div>
+        <div class="box box2" onclick="handleClick(this, 'index2.html')"></div>
+    </div>
+    <div class="label-container">
+        <div class="label" onclick="handleClick(this, 'index.html')">Generate QR Code</div>
+        <div class="label" onclick="handleClick(this, 'index2.html')">Scan QR Code</div>
+    </div>
+
+    <script>
+        function handleClick(element, url) {
+            element.classList.add('hover');
+            setTimeout(() => {
+                window.location.href = url;
+            }, 30); // Add a slight delay before navigating to the new page
+        }
+
+        function handleLogout() {
+            // Add your logout logic here
+            window.location.href = 'login.html'; // Redirect to logout page or perform other logout actions
+        }
+    </script>
+</body>
+</html>
