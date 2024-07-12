@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
+    
     <title>QR Code Generator Result</title>
     <style>
         /* Your existing styles */
@@ -38,18 +38,7 @@
             flex-wrap: wrap;
         }
 
-        .box {
-            display: flex;
-            flex-direction: column;
-            width: 45%;
-            padding: 20px;
-            box-sizing: border-box;
-            margin: 10px;
-            text-align: center;
-            border: 1px solid #000;
-            border-radius: 10px;
-            background-color: #155e75;
-        }
+      
 
         .qr-footer {
             text-align: center;
@@ -72,10 +61,12 @@
         .id-card {
             box-sizing: border-box;
             text-align: center;
-            border: 1px solid #000;
+          
             border-radius: 10px;
             position: relative;
             overflow: hidden;
+            width: 300px;
+            height: 500px;
         }
 
         .id-card img {
@@ -90,22 +81,27 @@
             align-items: center;
             color: rgb(255, 255, 255);
             background-color: rgb(8, 12, 247);
-            padding: 10px;
+           
             border-bottom: 1px solid #000;
-            justify-content: space-between;
+          
             border-top-left-radius: 10px;
             border-top-right-radius: 10px;
+            height: 100px;
         }
 
         .topper .header-text {
             flex: 1;
             text-align: center;
+            margin-right: 5px;
+
         }
 
         .topper img {
-            max-height: 80px;
-            max-width: 60px;
+            max-height: 60px;
+            max-width: 40px;
             margin-right: 10px;
+            margin-left: 10px;
+            border-radius: 5px;
         }
 
         @media (max-width: 768px) {
@@ -174,23 +170,57 @@
             font-size: 20px;
             color: #ffffff;
         }
+        /* Print styles */
+        @media print {
+           
+
+            .topper {
+                background-color: rgb(8, 12, 247);
+                color: #ffffff;
+                -webkit-print-color-adjust: exact; /* Ensure color printing */
+                color-adjust: exact;
+            }
+
+            .id-card {
+               
+                -webkit-print-color-adjust: exact; /* Ensure color printing */
+                color-adjust: exact;
+            }
+
+            .footercard {
+                background-color: blue;
+                color: #ffffff;
+                -webkit-print-color-adjust: exact; /* Ensure color printing */
+                color-adjust: exact;
+            }
+
+            .details p span {
+                color: #001122;
+            }
+
+            .student-name {
+                color: #001122;
+            }
+        }
     </style>
 </head>
 <body>
     <a href="index.html" class="back-arrow">&#8592; Back</a>
+    <button class="print-button" onclick="window.print()" style="position: absolute; top: 20px; right: 20px; padding: 10px 20px; background-color: #4CAF50; color: white; border: none; border-radius: 5px; cursor: pointer;">Print</button>
+
     <div class="container">
         <div class="box">
             <div class="qr-header">
-                <h1>Identity Card</h1>
+                <!-- <h1>Identity Card</h1> -->
             </div>
             <div class="id-card">
                 <div class="topper">
                     <img src="/photo/logo.jpg" alt="Logo">
                     <div class="header-text">
-                        <h6>ACADEMY OF LIBERAL EDUCATION @</h6>
-                        <h5>KVG COLLEGE OF ENGINEERING</h5>
+                        <h6>ACADEMY OF LIBERAL EDUCATION @KVG COLLEGE OF ENGINEERING SULLIA-574237, D.K., KARNATAKA STATE, INDIA PHONE:1234567890</h6>
+                        <!-- <h5>KVG COLLEGE OF ENGINEERING</h5>
                         <h5>SULLIA-574237, D.K., KARNATAKA STATE, INDIA</h5>
-                        <h5>PHONE:1234567890</h5>
+                        <h5>PHONE:1234567890</h5> -->
                     </div>
                 </div>
                 <div class="idcard" style="background-color: bisque;">
@@ -200,19 +230,19 @@
                         <p><b style="margin-right: -2px;">Course:</b> <span class="card-course" style="color: #001122; margin-right:100px;"></span></p>
                         <p><b>USN:</b> <span class="card-usn" style="color: #001122; margin-right:12px;"></span></p>
                         <p><b style="margin-right: -2px;">Batch:</b> <span class="card-batch" style="color: #001122; margin-right:80px;"></span></p>
-                        <img src="/photo/msd.jpeg" alt="Principal Image" style="width: 100px; height: 20px; margin-left:300px;margin-bottom:-15px;">
+                        <img src="/photo/msd.jpeg" alt="Principal Image" style="width: 100px; height: 20px; margin-left:200px;margin-bottom:-15px;">
                     </div>
                 </div>
                 <div class="footercard">
-                    <h4 style="margin-left: 280px;">Principal</h4>
+                    <h4 style="margin-left: 200px;">Principal</h4>
                 </div>
              
             </div>
         </div>
         <div class="box">
-            <div class="id-card" style="margin-top: 60px;">
-                <div class="idcard" style="background-color: bisque; height:380px;">
-                    <div class="details">
+            <div class="id-card" style="margin-left: 60px; ">
+                <div class="idcard" style="background-color: bisque; height:405px;">
+                    <div class="details" >
                         <p><b style="margin-left: -2px;">DOB:</b> <span class="card-dob" style="color: #001122;"></span></p>
                         <p><b style="margin-left: -130px;">Blood Group:</b> <span class="card-blood_group" style="color: #001122;"></span></p>
                         <p><b style="margin-right: -2px;">Phone:</b> <span class="card-phone" style="color: #001122;"></span></p>
@@ -224,7 +254,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="footercard">
+                <div class="footercard" >
                     <h4>Web: http://kvgengg.com/</h4>
                 </div>
             </div>
