@@ -7,6 +7,7 @@ const fs = require('fs');
 const QRCode = require('qrcode');
 const cors = require('cors');
 
+
 const app = express();
 const port = 3000;
 
@@ -269,6 +270,19 @@ app.post('/api/library_lending', async (req, res) => {
         res.status(500).json({ message: 'Server error' });
     }
 });
+
+app.get('/api/library-lending', async (req, res) => {
+    try {
+        const lendings = await LibraryLending.find();
+        console.log('Lending records fetched:', lendings);
+        res.json(lendings);
+    } catch (err) {
+        console.log('Error fetching lending records:', err);
+        res.status(500).send(err.message);
+    }
+});
+
+
 
 // Handle admin login form submission
 app.post('/adminlogin', async (req, res) => {
