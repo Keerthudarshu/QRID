@@ -69,6 +69,10 @@
             background-color: #2196F3;
             background-image: url('photo/scan_qr.png'); /* Replace with the path to your image */
         }
+        .box3 {
+            background-color: #2196F3;
+            background-image: url('photo/id.jpeg'); /* Replace with the path to your image */
+        }
         .box:hover, .box.hover {
             background-color: rgba(250, 246, 246, 0.2); /* Semi-transparent overlay on hover */
         }
@@ -100,11 +104,16 @@
         <div class="box box1" onclick="handleClick(this, 'index.html')"></div>
         <div class="box box2" onclick="handleClick(this, 'index2.html')"></div>
     </div>
+   
+
     <div class="label-container">
         <div class="label" onclick="handleClick(this, 'index.html')">Generate QR Code</div>
         <div class="label" onclick="handleClick(this, 'index2.html')">Scan QR Code</div>
     </div>
-
+    <div class="box-container" style="width:500px;">
+        <div class="box box3" onclick="handleClick(this, 'id.html')" ></div>
+       
+    </div>
     <script>
         function handleClick(element, url) {
             element.classList.add('hover');

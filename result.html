@@ -205,7 +205,7 @@
     </style>
 </head>
 <body>
-    <a href="index.html" class="back-arrow">&#8592; Back</a>
+    <a href="index1.html" class="back-arrow">&#8592; Back</a>
     <button class="print-button" onclick="window.print()" style="position: absolute; top: 20px; right: 20px; padding: 10px 20px; background-color: #4CAF50; color: white; border: none; border-radius: 5px; cursor: pointer;">Print</button>
 
     <div class="container">
@@ -263,8 +263,8 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', async function() {
-            // Get the USN from local storage or URL parameters
-            let usn = localStorage.getItem('usn') || new URLSearchParams(window.location.search).get('usn');
+            // Get the USN from URL parameters
+            let usn = new URLSearchParams(window.location.search).get('usn');
             
             if (usn) {
                 try {
@@ -273,11 +273,11 @@
                     if (!response.ok) {
                         throw new Error('Failed to fetch user data');
                     }
-        
+    
                     const userData = await response.json();
-        
+    
                     console.log('User Data:', userData); // Log user data for debugging
-        
+    
                     // Update elements with user data
                     document.querySelectorAll('.card-name').forEach(el => el.textContent = userData.name);
                     document.querySelectorAll('.card-course').forEach(el => el.textContent = userData.course);
@@ -291,11 +291,11 @@
                     // Display the QR code image
                     const qrCodeImg = document.querySelector('.qr-code');
                     qrCodeImg.src = userData.qrCodeImage;
-        
+    
                     // Display the profile picture
                     const profileImg = document.querySelector('.card-image');
                     profileImg.src = userData.imageUrl;
-
+    
                     // Display the student's name
                     const studentNameElements = document.querySelectorAll('.student-name');
                     studentNameElements.forEach(el => el.textContent = userData.name); // Assuming userData.name contains the student's name
@@ -303,9 +303,10 @@
                     console.error('Error fetching user data:', error.message);
                 }
             } else {
-                console.error('No USN found in local storage or URL parameters');
+                console.error('No USN found in URL parameters');
             }
         });
     </script>
+    
 </body>
 </html>

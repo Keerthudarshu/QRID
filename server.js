@@ -465,6 +465,28 @@ app.get('/api/qrcode/:usn', async (req, res) => {
         res.status(500).json({ error: 'Internal server error' });
     }
 });
+// Existing code...
+app.get('/api/qrcode/:usn', async (req, res) => {
+    const usn = req.params.usn;
+    console.log('Fetching QR code details for USN:', usn);
+
+    try {
+        const qr = await QR.findOne({ usn });
+        if (!qr) {
+            console.error('QR code not found for USN:', usn);
+            return res.status(404).json({ error: 'QR code not found' });
+        }
+        console.log('QR code details found:', qr);
+        res.json(qr);
+    } catch (err) {
+        console.error('Error fetching QR code details:', err);
+        res.status(500).json({ error: 'Internal server error' });
+    }
+});
+
+
+// Existing code...
+
 
 app.listen(port, () => {
     console.log(`Server started on port ${port}`);

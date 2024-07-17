@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student ID Search</title>
+    <link rel="stylesheet" href="style2.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Search for Student ID</h1>
+        <form id="searchForm">
+            <input type="text" id="usn" name="usn" placeholder="Enter USN" required>
+            <button type="submit">Search</button>
+        </form>
+    </div>
+
+    <script>
+        document.getElementById('searchForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const usn = document.getElementById('usn').value;
+            document.getElementById('usn').value = ''; // Clear the input field
+            window.location.href = `/result.html?usn=${usn}`;
+        });
+    </script>
+</body>
+</html>
