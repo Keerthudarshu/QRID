@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>QR Code Generator </title>
+    <link rel="icon" href="photo/logo2.jpg" sizes="50x50" type="image/png">
     <style>
         body {
             display: flex;
@@ -71,7 +72,7 @@
         }
         .box3 {
             background-color: #2196F3;
-            background-image: url('photo/id.jpeg'); /* Replace with the path to your image */
+            background-image: url('photo/idp.jpg'); /* Replace with the path to your image */
         }
         .box:hover, .box.hover {
             background-color: rgba(250, 246, 246, 0.2); /* Semi-transparent overlay on hover */
@@ -113,6 +114,11 @@
     <div class="box-container" style="width:500px;">
         <div class="box box3" onclick="handleClick(this, 'id.html')" ></div>
        
+    </div>
+    
+    <div class="label-container">
+        
+        <div class="label" onclick="handleClick(this, 'id.html')">Student ID</div>
     </div>
     <script>
         function handleClick(element, url) {
