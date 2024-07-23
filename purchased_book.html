@@ -7,6 +7,9 @@
     <link rel="icon" href="photo/logo2.jpg" sizes="50x50" type="image/png">
 
     <style>
+        h1{
+            margin-top: 60px;
+        }
         table {
             width: 100%;
             border-collapse: collapse;
@@ -18,10 +21,27 @@
             padding: 8px;
             text-align: left;
         }
+    
+        .back-arrow {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            font-size: 24px;
+            color: rgb(254, 253, 253);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+    
+        .back-arrow:hover {
+            color: #050505;
+            background-color: aliceblue;
+        }
+    
     </style>
 </head>
 <body style="background-color: #001122;">
-    <h1 style="color: antiquewhite;">Library Lending Records</h1>
+    <a href="id.html" class="back-arrow">&#8592; Back</a>
+    <h1 style="color: antiquewhite;" >Library Lending Records</h1>
     <table style="background-color: antiquewhite;">
         <thead>
             <tr>
